@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Temperature Converter</title>
+
+  <!-- Google Fonts: Inter (UI text) + JetBrains Mono (numeric results) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ── Page wrapper ─────────────────────────────────── -->
+  <main class="page">
+
+    <!-- ── Converter card ───────────────────────────────── -->
+    <article class="card" aria-label="Temperature Converter">
+
+      <!-- Card header with icon + title -->
+      <header class="card-header">
+        <svg class="thermo-icon" viewBox="0 0 40 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="15" y="4" width="10" height="48" rx="5" fill="none" stroke="currentColor" stroke-width="2.5"/>
+          <rect x="18" y="8" width="4" height="30" rx="2" fill="currentColor" opacity="0.3"/>
+          <circle cx="20" cy="62" r="10" fill="currentColor" opacity="0.9"/>
+          <circle cx="20" cy="62" r="6" fill="white" opacity="0.25"/>
+        </svg>
+        <div class="card-title-group">
+          <h1 class="card-title">Temperature Converter</h1>
+          <p class="card-subtitle">Celsius · Fahrenheit · Kelvin</p>
+        </div>
+      </header>
+
+      <!-- ── Input section ────────────────────────────── -->
+      <section class="input-section" aria-label="Input controls">
+
+        <!-- Numeric input -->
+        <div class="field-group">
+          <label class="field-label" for="temp-input">Temperature value</label>
+          <input
+            type="number"
+            id="temp-input"
+            class="temp-input"
+            placeholder="Enter a number…"
+            step="any"
+            aria-describedby="error-msg"
+          />
+        </div>
+
+        <!-- Unit selector -->
+        <div class="field-group">
+          <label class="field-label" for="unit-select">Unit</label>
+          <div class="select-wrap">
+            <select id="unit-select" class="unit-select">
+              <option value="celsius">Celsius (°C)</option>
+              <option value="fahrenheit">Fahrenheit (°F)</option>
+              <option value="kelvin">Kelvin (K)</option>
+            </select>
+            <svg class="select-chevron" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Validation error message (hidden by default) -->
+        <p class="error-msg" id="error-msg" role="alert" aria-live="polite"></p>
+
+        <!-- Convert button -->
+        <button type="button" id="convert-btn" class="convert-btn">Convert</button>
+
+      </section>
+
+      <!-- ── Results section ───────────────────────────── -->
+      <section
+        class="results-section"
+        id="results-section"
+        aria-label="Conversion results"
+        aria-live="polite"
+      >
+        <!-- Celsius tile — cool blue -->
+        <div class="result-tile result-tile--celsius">
+          <span class="result-symbol">°C</span>
+          <span class="result-value" id="result-celsius">–</span>
+          <span class="result-label">Celsius</span>
+        </div>
+
+        <!-- Fahrenheit tile — neutral slate -->
+        <div class="result-tile result-tile--fahrenheit">
+          <span class="result-symbol">°F</span>
+          <span class="result-value" id="result-fahrenheit">–</span>
+          <span class="result-label">Fahrenheit</span>
+        </div>
+
+        <!-- Kelvin tile — warm amber -->
+        <div class="result-tile result-tile--kelvin">
+          <span class="result-symbol">K</span>
+          <span class="result-value" id="result-kelvin">–</span>
+          <span class="result-label">Kelvin</span>
+        </div>
+      </section>
+
+      <!-- Card footer with clear button -->
+      <footer class="card-footer">
+        <button type="button" id="reset-btn" class="reset-btn">Clear</button>
+      </footer>
+
+    </article>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+/* ============================================================
+   TEMPERATURE CONVERTER — style.css
+   
+   Palette:
+     --sky     : #C8E6FA  (cool page bg start)
+     --amber   : #FAE0B0  (warm page bg end)
+     --ink     : #1C2333  (text)
+     --mid     : #5A6478  (secondary text)
+     --blue    : #2D7DD2  (Celsius tile)
+     --slate   : #4A5568  (Fahrenheit tile)
+     --orange  : #E07B39  (Kelvin tile)
+     --surface : #FFFFFF  (card)
+     --border  : #E2E8F0
+     --error   : #D93025
+
+   Fonts:
+     Inter         → UI labels, button, body copy
+     JetBrains Mono→ numeric result values
+   ============================================================ */
+
+/* ---------- Reset & base ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #1C2333;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+
+/* ---------- Page background: temperature gradient ---------- */
+.page {
+  min-height: 100dvh;
+  /* cool sky-blue (cold) → warm amber (hot) */
+  background: linear-gradient(135deg, #C8E6FA 0%, #FAE0B0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+/* ============================================================
+   CARD
+   ============================================================ */
+.card {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow:
+    0 4px 6px rgba(28, 35, 51, 0.06),
+    0 16px 40px rgba(28, 35, 51, 0.12);
+  width: 100%;
+  max-width: 460px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ---------- Card header ---------- */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Thermometer icon */
+.thermo-icon {
+  width: 32px;
+  height: 64px;
+  flex-shrink: 0;
+  color: #E07B39;   /* warm orange — the "heat" colour */
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1C2333;
+  line-height: 1.2;
+}
+
+.card-subtitle {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #5A6478;
+  margin-top: 2px;
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   INPUT SECTION
+   ============================================================ */
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+}
+
+/* Field group: label + control stacked */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.field-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #5A6478;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+/* ---------- Number input ---------- */
+.temp-input {
+  width: 100%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #1C2333;
+  background: #F7F9FC;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  /* Hide number input spin arrows (cross-browser) */
+  -moz-appearance: textfield;
+}
+.temp-input::-webkit-outer-spin-button,
+.temp-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+.temp-input::placeholder { color: #A0ABBE; font-weight: 400; }
+
+.temp-input:focus {
+  border-color: #2D7DD2;
+  box-shadow: 0 0 0 3px rgba(45, 125, 210, 0.15);
+}
+
+/* Invalid state (added by JS) */
+.temp-input.is-invalid {
+  border-color: #D93025;
+  box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.12);
+}
+
+/* ---------- Select dropdown ---------- */
+.select-wrap {
+  position: relative;
+}
+
+.unit-select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1C2333;
+  background: #F7F9FC;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 0.75rem 2.75rem 0.75rem 1rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.unit-select:focus {
+  border-color: #2D7DD2;
+  box-shadow: 0 0 0 3px rgba(45, 125, 210, 0.15);
+}
+
+/* Custom chevron icon inside select */
+.select-chevron {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: #5A6478;
+  pointer-events: none;  /* so clicks pass through to the select */
+}
+
+/* ---------- Error message ---------- */
+.error-msg {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #D93025;
+  min-height: 1.1em;      /* reserves space so layout doesn't jump */
+  display: none;          /* JS shows this via .is-visible */
+}
+
+.error-msg.is-visible { display: block; }
+
+/* ---------- Convert button ---------- */
+.convert-btn {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: #1C2333;
+  border: none;
+  border-radius: 12px;
+  padding: 0.85rem 1.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  margin-top: 0.25rem;
+  letter-spacing: 0.02em;
+}
+
+.convert-btn:hover {
+  background: #2D7DD2;
+  box-shadow: 0 4px 16px rgba(45, 125, 210, 0.35);
+}
+
+.convert-btn:active { transform: scale(0.98); }
+
+/* Focus ring for keyboard navigation */
+.convert-btn:focus-visible {
+  outline: 3px solid #2D7DD2;
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   RESULTS SECTION
+   ============================================================ */
+.results-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.875rem;
+}
+
+/* ---------- Result tile base styles ---------- */
+.result-tile {
+  border-radius: 16px;
+  padding: 1.25rem 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
+
+.result-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Unit symbol (e.g. °C) */
+.result-symbol {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.7;
+  letter-spacing: 0.05em;
+}
+
+/* Numeric value */
+.result-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: center;
+  word-break: break-all;   /* prevent overflow on very long numbers */
+}
+
+/* Unit name label */
+.result-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.65;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Tile colour themes ----------
+   Signature design choice: tiles shift from cool → warm
+   to mirror the cold–hot temperature spectrum.
+*/
+
+/* Celsius → cool blue */
+.result-tile--celsius {
+  background: #EBF4FD;
+  color: #1A5C9E;
+  border: 1.5px solid #B8D9F5;
+}
+
+/* Fahrenheit → neutral slate */
+.result-tile--fahrenheit {
+  background: #F0F2F5;
+  color: #3A4A62;
+  border: 1.5px solid #CDD3DD;
+}
+
+/* Kelvin → warm amber-orange */
+.result-tile--kelvin {
+  background: #FDF2E5;
+  color: #9B4E1A;
+  border: 1.5px solid #F0CFA0;
+}
+
+/* ============================================================
+   CARD FOOTER
+   ============================================================ */
+.card-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.25rem;
+}
+
+.reset-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #5A6478;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  transition: color 0.2s ease, background 0.2s ease;
+  letter-spacing: 0.03em;
+}
+
+.reset-btn:hover {
+  color: #D93025;
+  background: rgba(217, 48, 37, 0.06);
+}
+
+.reset-btn:focus-visible {
+  outline: 2px solid #2D7DD2;
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   RESPONSIVE — mobile (< 400px)
+   ============================================================ */
+@media (max-width: 400px) {
+  .card { padding: 2rem 1.25rem; }
+
+  .card-title { font-size: 1.1rem; }
+
+  /* Stack the three result tiles vertically on very small screens */
+  .results-section { grid-template-columns: 1fr; }
+
+  .result-tile {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+  }
+
+  .result-value { font-size: 1.25rem; }
+}
+
+/* Respect the user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
